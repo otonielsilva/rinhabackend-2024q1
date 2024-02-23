@@ -96,20 +96,11 @@ public class ClienteResource {
                     return Response.status(422).entity(Map.of("mensagem", "Transacao invalida devido ao tamanho")).build();
                 }
             }
-            /*ClienteDB cliente = findClient(conn, id, true);
-            if (cliente == null) {
-                return Response.status(Response.Status.NOT_FOUND).entity(Map.of("mensagem", "Cliente nao encontrado")).build();
-            }
 
-            if ("d".equals(request.getTipo()) && request.getValor() > (cliente.getSaldo() + cliente.getLimite())) {
-                return Response.status(422).entity(Map.of("mensagem", "Transacao invalida devido ao tamanho")).build();
-            }*/
             return Response.serverError().build();
 
         } catch (SQLException ex) {
-            if (ex.getSQLState().startsWith("P")) {
-                return Response.status(422).entity(Map.of("messagem", "Erro para processar transacao")).build();
-            }
+            System.err.println(ex.getMessage());
             return Response.serverError().build();
         }
     }
