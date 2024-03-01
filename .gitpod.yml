@@ -1,0 +1,54 @@
+image:
+  file: .gitpod.Dockerfile
+
+tasks:
+  - name: Build project
+    init: |
+      ./install-gatling.sh      
+      mvn clean install
+    command: |      
+      mvn quarkus:dev 
+
+  - name: Start Servers
+    command: |
+      docker compose down; docker compose up;
+  
+  - name: Run Rinha
+    command: |
+      sleep 45;
+      cd rinha-de-backend-2024-q1/
+      ./executar-teste-local.sh
+
+ports:
+  - port: 8082
+    visibility: private
+    onOpen: ignore
+  - port: 8081
+    visibility: private
+    onOpen: ignore 
+  - port: 5432
+    visibility: private
+    onOpen: ignore  
+  - port: 9000
+    visibility: private
+    onOpen: ignore
+  - port: 9999
+    visibility: public
+    onOpen: ignore
+
+vscode:
+  extensions:
+    - ritwickdey.liveserver
+    - vscjava.vscode-java-pack
+    - vscjava.vscode-java-debug
+    - vscjava.vscode-java-dependency
+    - vscjava.vscode-java-test
+    - vscjava.vscode-maven
+    - redhat.java
+    - redhat.fabric8-analytics
+    - ms-azuretools.vscode-docker
+    - gatling.gatling
+    - ms-azuretools.vscode-docker
+
+additionalRepositories:
+  - url: https://github.com/zanfranceschi/rinha-de-backend-2024-q1
